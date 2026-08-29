@@ -111,13 +111,24 @@ public class ReservationService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Resource not found with id: " + request.getResourceId()));
 
+
+        if (!resource.isAvailable()) {
+            throw new ConflictException("Resource is not available for booking");
+        }
+
         validateTimes(request.getStartTime(), request.getEndTime());
 
         boolean timesChanged =
                 !reservation.getStartTime().equals(request.getStartTime())
                         || !reservation.getEndTime().equals(request.getEndTime());
 
-        if (timesChanged
+
+        
+        // reservation could be moved onto a resource whose slot is already taken!
+        boolean resourceChanged =
+                !reservation.getResource().getId().equals(resource.getId());
+
+        if ((timesChanged || resourceChanged)
                 && reservationRepository.countOverlappingExcluding(
                 resource.getId(), id,
                 request.getStartTime(), request.getEndTime()) > 0) {
