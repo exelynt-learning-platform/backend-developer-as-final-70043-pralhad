@@ -1,3 +1,6 @@
+# backend-developer-as-final-70043-pralhad
+Final Project Assignment - This repository contains the complete final project code and documentation.
+
 # 🎯 Resource Booking System
 
 A secure, RESTful **Resource Booking System** built with **Spring Boot**, featuring JWT authentication, role-based access control, reservation management, double-booking prevention, dynamic filtering, pagination, and sorting.
